@@ -1,5 +1,4 @@
 export default {
-
   getUnits() {
     return [
       {
@@ -15,7 +14,6 @@ export default {
         title:'OOP principles in c#',
         description:'In this unit we will see how to use classes and objects'
       },
-
     ]
   },
   getChapters() {
@@ -78,6 +76,7 @@ export default {
       }
     ]
   }
+
 }
 
 

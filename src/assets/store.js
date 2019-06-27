@@ -4,13 +4,13 @@ import Answer from "../models/Answer";
 import Unit from "../models/Unit";
 import Chapter from "../models/Chapter";
 
-export default{
+export default {
   state: {
     chapters: [],
     units: [],
     users: [],
     questions: [],
-    questionsDictionary:{},
+    questionsDictionary: {},
     activeUser: {
       userObject: {},
       answers: [],
@@ -19,27 +19,28 @@ export default{
     },
   },
 
-  initializeDataTest(){
-    this.setActiveUser(testData.getUsers()[0]);
+  initializeDataTest() {
+    console.log("HI")
+    this.setActiveUser(testData.getUsers()[0], []);
     this.setUnits(testData.getUnits());
-    this.setChapters();
+    this.setChapters(testData.getChapters());
   },
 
 
-  setChapters(){
-    this.state.chapters = testData.getChapters().map(chapter=>new Chapter(chapter))
+  setChapters() {
+    this.state.chapters = testData.getChapters().map(chapter => new Chapter(chapter))
   },
-  setUnits(units){
-    this.state.units = units.map(unit=>new Unit(unit))
+  setUnits(units) {
+    this.state.units = units.map(unit => new Unit(unit))
   },
   /**
    *
    * @param user
    * @param answers
    */
-  setActiveUser(user, answers){
+  setActiveUser(user, answers) {
     this.state.activeUser.user = new User(user);
-    this.state.activeUser.answers = answers.map(answer=> new Answer(answer));
+    this.state.activeUser.answers = answers.map(answer => new Answer(answer));
     let chapterScores = this.calculateChaptersScores();
     let revisionScores = {};
     this.setChapterScores(chapterScores);
@@ -51,7 +52,7 @@ export default{
    * @param scores
    * @returns {{}}
    */
-  setRevisionScores(scores){
+  setRevisionScores(scores) {
     return {}
   },
   /**
@@ -77,7 +78,7 @@ export default{
    */
   calculateChapterScore(chapterID,) {
     const answers = this.state.activeUser.answers
-        .filter((answer) => answer.chapterID === chapterID);
+      .filter((answer) => answer.chapterID === chapterID);
 
     return {score: answers.reduce((a, b) => a.score + b.score, 0), count: answers.length};
   },
@@ -89,16 +90,21 @@ export default{
   calculateChaptersScores() {
     return this.state.chapters;
     const scores = {}
-        .foreach((chapter) => {
-          const results = this.calculateChapterScore(chapter.chapterID);
-          scores[chapter.chapterID] = {};
-          scores[chapter.chapterID] = {
-            chapterID: chapter.chapte1rID,
-            score: results.score,
-            count: results.count,
-          };
-          this.setChapterScores(scores);
-        });
+      .foreach((chapter) => {
+        const results = this.calculateChapterScore(chapter.chapterID);
+        scores[chapter.chapterID] = {};
+        scores[chapter.chapterID] = {
+          chapterID: chapter.chapte1rID,
+          score: results.score,
+          count: results.count,
+        };
+        this.setChapterScores(scores);
+      });
+  },
+  getUnitChapters() {
+    this.state.chapters
+      .filter((chapter) =>
+        chapter.unitID === unitID);
   },
   /**
    *
@@ -108,14 +114,14 @@ export default{
    */
   makeRevision(unitID, questionNumber,) {
     const chapters = this.state.chapters
-        .filter((chapter) =>
-          chapter.unitID === unitID
-          && this.state.activeUser.chapterScores[chapter.unitID]
-          > 0);
+      .filter((chapter) =>
+        chapter.unitID === unitID
+        && this.state.activeUser.chapterScores[chapter.unitID]
+        > 0);
     const answersFalse = this.state.answers
-        .filter((answer) => answer.isCorrect === false);
+      .filter((answer) => answer.isCorrect === false);
     const answersCorrect = this.state.answers
-        .filter((answer) => answer.isCorrect === true);
+      .filter((answer) => answer.isCorrect === true);
     const difference = questionNumber - answersFalse.length;
     const falseNumber = difference < 0 ? 0 : difference;
     const correctNumber = questionNumber - falseNumber;
