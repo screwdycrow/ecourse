@@ -1,6 +1,13 @@
 import Settings from '../assets/settings'
 
 export default class Chapter{
+  get video() {
+    return this._video;
+  }
+
+  set video(value) {
+    this._video = value;
+  }
   get answers() {
     return this._answers;
   }
@@ -40,14 +47,6 @@ export default class Chapter{
     this._chapterID = value;
   }
 
-  get chapterFormat() {
-    return Settings[this._chapterFormat];
-  }
-
-  set chapterFormat(value) {
-    this._chapterFormat = value;
-  }
-
   get content() {
     return this._content;
   }
@@ -58,13 +57,13 @@ export default class Chapter{
 
   constructor(options){
 
-    this._title = options.title || null;
-    this._unitID = options._unitID || null;
-    this._chapterID = options._chapterID || null;
-    this._chapterFormat = options._chapterFormat || null;
-    this._content = options.content || null;
-    this._answers = options.answers || null;
-    this._questions = options.questions || null;
+    this._title = options.title;
+    this._unitID = options.unitID ;
+    this._chapterID = options.chapterID;
+    this._content = options.content;
+    this._video = options.video;
+    this._answers = options.answers;
+    this._questions = options.questions;
 
   }
 

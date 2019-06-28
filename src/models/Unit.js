@@ -1,12 +1,19 @@
 
 export default class Unit {
+  get answers() {
+    return this._answers;
+  }
+
+  set answers(value) {
+    this._answers = value;
+  }
   constructor(options) {
 
     this._unitID = options.unitID;
     this._title = options.title || null;
     this._description = options.description || null;
     this.chapters = options.chapters || [];
-    this._answers = [];
+    this._answers = options.answers || [];
 
   }
 

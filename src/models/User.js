@@ -8,7 +8,7 @@ export default class User{
     this._lastname = options._lastname || null;
     this._role = options.role|| null ;
     this._username = options.role || null;
-    this._answers = options.answers || null;
+    this._answers = options.answers || [];
   }
   get userID (){
     return this._userID;

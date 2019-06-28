@@ -19,16 +19,21 @@ export default {
     },
   },
 
+  getChapter(id){
+    let index = this.state.chapters.findIndex(chapter => chapter.chapterID === Number(id));
+    console.log(index);
+    return this.state.chapters[index];
+  },
   initializeDataTest() {
-    console.log("HI")
+    console.log("HI");
     this.setActiveUser(testData.getUsers()[0], []);
     this.setUnits(testData.getUnits());
     this.setChapters(testData.getChapters());
   },
 
 
-  setChapters() {
-    this.state.chapters = testData.getChapters().map(chapter => new Chapter(chapter))
+  setChapters(chapters) {
+    this.state.chapters =chapters.map(chapter => new Chapter(chapter))
   },
   setUnits(units) {
     this.state.units = units.map(unit => new Unit(unit))
