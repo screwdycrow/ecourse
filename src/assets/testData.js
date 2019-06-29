@@ -127,6 +127,7 @@ export default {
     getQuestions() {
         return [
             {
+                questionID: 0,
                 title: 'question 1',
                 description: 'what is c#',
                 option1: 'a framework',
@@ -137,23 +138,41 @@ export default {
                 chapterID: 0
             },
             {
+                questionID: 1,
                 title: 'question 2',
                 description: 'what is Monodevelop?',
                 option1: 'a framework',
                 option2: 'a slung for people who cannot see sharp',
                 option3: 'a fancy spaceship made by microsoft',
                 option4: 'an IDE for writing code stuff ',
-                chapterID: 0
+                chapterID: 0,
+                correctAnswer: 4,
+
             },
             {
+                questionID: 2,
                 title: 'question 3',
                 description: 'What are you?',
                 option1: 'a dinosaur escaped from a google chrome',
                 option2: 'a framework',
                 option3: 'a fancy spaceship made by microsoft',
                 option4: 'i am a noob hooman.',
-                chapterID: 0
-            }
+                chapterID: 0,
+                correctAnswer: 4,
+
+
+            },
+            {
+                questionID: 3,
+                title: 'question 4',
+                description: 'What are you?',
+                option1: 'a dinosaur escaped from a google chrome',
+                option2: 'a framework',
+                option3: 'a fancy spaceship made by microsoft',
+                option4: 'i am a noob hooman.',
+                chapterID: 0,
+                correctAnswer: 4,
+            },
         ]
     },
     getAnswers() {

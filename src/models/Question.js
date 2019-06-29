@@ -70,7 +70,7 @@ export default class Question {
     this._option3 = options.option3 || null;
     this._option4 = options.option4 || null;
     this._correctAnswer = options.correctAnswer || null;
-    this._chapterID = options.chapterID() || null;
+    this._chapterID = options.chapterID;
 
 
   }

@@ -25,7 +25,7 @@ export default class Unit {
   filterUnitAnswers(answers) {
     if(answers.length === 0 )return;
     if (Answer.prototype.isPrototypeOf(answers[0]) ){
-      return answers.filter(item=> item.UnitID === this.unitID)
+      return answers.filter(item=> item.unitID === this.unitID)
     }
   }
 

@@ -5,7 +5,7 @@
         <q-expansion-item
                 group="units"
                 v-for="unit in store.state.units"
-                :key="unit.unitID"
+                :key="unit.unitId"
                 expand-separator
                 icon="school"
                 :label="unit.title"

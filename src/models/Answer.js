@@ -1,4 +1,18 @@
 export default class Answer{
+  get answerID() {
+    return this._answerID;
+  }
+
+  set answerID(value) {
+    this._answerID = value;
+  }
+  get chapterID() {
+    return this._chapterID;
+  }
+
+  set chapterID(value) {
+    this._chapterID = value;
+  }
   get questionID() {
     return this._questionID;
   }
@@ -43,11 +57,13 @@ export default class Answer{
   }
 
   constructor(options){
+    this._answerID = options.answer || null;
     this._questionID = options.questionID || null;
     this._userID = options.userID || null;
     this._unitID  = options.unitID || null;
     this._isCorrect = options.isCorrect || null;
     this._score = options.score || null;
     this._isRevision = options.isRevision || null;
+    this._chapterID = options.chapterID || null;
   }
 }
