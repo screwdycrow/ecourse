@@ -1,10 +1,11 @@
 <template>
     <div v-if="chapter !== null ">
-        <q-video style="height:400px;" :src="chapter.video" frameborder="0" ></q-video>
-        <div class="q-pa-lg">
+          <q-video style="height:600px;" :src="chapter.video" frameborder="0" ></q-video>
+
+          <div class="q-pa-lg">
             <h3> {{chapter.title}}</h3>
             <div v-html="chapter.content"> </div>
-        </div>
+          </div>
     </div>
 </template>
 

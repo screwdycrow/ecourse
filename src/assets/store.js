@@ -35,6 +35,7 @@ export default {
   setChapters(chapters) {
     this.state.chapters =chapters.map(chapter => new Chapter(chapter))
   },
+
   setUnits(units) {
     this.state.units = units.map(unit => new Unit(unit))
   },
@@ -44,12 +45,14 @@ export default {
    * @param answers
    */
   setActiveUser(user, answers) {
+
     this.state.activeUser.user = new User(user);
     this.state.activeUser.answers = answers.map(answer => new Answer(answer));
     let chapterScores = this.calculateChaptersScores();
     let revisionScores = {};
     this.setChapterScores(chapterScores);
     this.setRevisionScores(revisionScores)
+
   },
 
   /**
@@ -84,8 +87,12 @@ export default {
   calculateChapterScore(chapterID,) {
     const answers = this.state.activeUser.answers
       .filter((answer) => answer.chapterID === chapterID);
-
     return {score: answers.reduce((a, b) => a.score + b.score, 0), count: answers.length};
+  },
+
+  addAnswer(obj){
+    let answer   =  new Answer( obj );
+    this.state.activeUser.answers.push(answer);
   },
 
   /**
