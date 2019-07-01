@@ -25,7 +25,6 @@
         created() {
             console.log('id',this.$route.params.id);
             console.log(this.chapter);
-
         }
     }
 </script>

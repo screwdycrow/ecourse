@@ -12,35 +12,56 @@ export default {
         users: [],
         questions: [],
         questionsDictionary: {},
+        tests: [],
+        isloggedIn: false,
         activeUser: {
             userObject: {},
             answers: [],
+            tests:[],
             chapterScores: {},
             revisionScores: {},
         },
     },
-
+    tryLogin(username, password) {
+        if (username === mhtsos && password === 123456) this.isloggedIn = true;
+    },
     getChapter(id) {
         let index = this.state.chapters.findIndex(chapter => chapter.chapterID === Number(id));
         console.log(index);
         return this.state.chapters[index];
     },
     initializeDataTest() {
-        console.log("HI");
-        this.setActiveUser(testData.getUsers()[0], []);
+        if(!localStorage.getItem('activeUser')){
+            this.setActiveUser(testData.getUsers()[0], []);
+        } else{
+            this.state.activeUser = JSON.parse(localStorage.getItem('activeUser'))
+        }
         this.setUnits(testData.getUnits());
         this.setChapters(testData.getChapters());
         this.setQuestions(testData.getQuestions());
     },
 
-    setQuestions(questions){
-        this.state.questions = questions.map(q=>new Question(q))
+    resetUnitAnswers(unitID) {
+        let answers = this.state.activeUser.answers.filter(a => a.unitID !== unitID);
+        this.state.activeUser.answers = answers;
+        localStorage.setItem('activeUser', JSON.stringify(this.state.activeUser))
     },
-    getChapterQuestions(id){
-        return this.state.questions.filter(q=>q.chapterID === id )
+    setQuestions(questions) {
+        this.state.questions = questions.map(q => {
+                let question = new Question(q);
+                this.state.questionsDictionary[q.questionID] = {};
+                this.state.questionsDictionary[q.questionID] = q;
+                return q;
+            }
+        )
+    },
+    getChapterQuestions(id) {
+        return this.state.questions.filter(q => q.chapterID === id)
+
     },
     setChapters(chapters) {
         this.state.chapters = chapters.map(chapter => new Chapter(chapter))
+        this.calculateChaptersScores();
     },
 
     setUnits(units) {
@@ -53,22 +74,43 @@ export default {
      */
     setActiveUser(user, answers) {
 
-        this.state.activeUser.user = new User(user);
+        this.state.activeUser.userObject = new User(user);
         this.state.activeUser.answers = answers.map(answer => new Answer(answer));
-        let chapterScores = this.calculateChaptersScores();
-        let revisionScores = {};
-        this.setChapterScores(chapterScores);
-        this.setRevisionScores(revisionScores)
+        let chapterscores = this.calculateChaptersScores();
+        let revisionscores = this.calculateRevisionsScores();
 
     },
 
+
+    calculateRevisionScores(unitID) {
+        const answers = this.state.activeUser.answers
+            .filter((answer) => answer.unitID === unitID && answer.isRevision);
+        return {score: this.sumScore(answers), count: answers.length};
+    },
+
+    calculateRevisionsScores() {
+        const scores = {};
+        this.state.units.forEach((unit) => {
+            const results = this.calculateRevisionScores(unit.unitID);
+            scores[unit.unitID] = {};
+            scores[unit.unitID] = {
+                unitID: unit.unitID,
+                score: results.score,
+                count: results.count,
+            };
+            this.setRevisionScores(scores)
+        });
+    },
+    canTakeRevision(unitID) {
+        return this.state.activeUser.answers.filter((c) => c.unitID === unitID).length >= 10;
+    },
     /**
      *
      * @param scores
      * @returns {{}}
      */
     setRevisionScores(scores) {
-        return {}
+        this.state.activeUser.revisionScores = scores
     },
     /**
      *
@@ -76,6 +118,8 @@ export default {
      */
     setChapterScores(scores) {
         this.state.activeUser.chapterScores = scores;
+    },
+    canTakeUnit(unitID) {
     },
 
     /**
@@ -91,15 +135,23 @@ export default {
      * @param chapterID
      * @return {{score: *, count: number}}
      */
-    calculateChapterScore(chapterID,) {
+    calculateChapterScore(chapterID) {
         const answers = this.state.activeUser.answers
-            .filter((answer) => answer.chapterID === chapterID);
-        return {score: answers.reduce((a, b) => a.score + b.score, 0), count: answers.length};
+            .filter((answer) => answer.chapterID === chapterID && !answer.isRevision);
+        return {score: this.sumScore(answers), count: answers.length};
     },
 
-    addAnswer(obj) {
-        let answer = new Answer(obj);
-        this.state.activeUser.answers.push(answer);
+    sumScore(answers) {
+        let sum = 0;
+        answers.forEach(a => {
+            sum += a.score;
+        });
+        return sum
+    },
+    addAnswers(answers, test) {
+        this.state.activeUser.answers = this.state.activeUser.answers.concat(answers);
+        this.state.activeUser.tests.push(test);
+        localStorage.setItem('activeUser', JSON.stringify(this.state.activeUser))
     },
 
     /**
@@ -107,18 +159,17 @@ export default {
      * @return {Array}
      */
     calculateChaptersScores() {
-        return this.state.chapters;
-        const scores = {}
-            .foreach((chapter) => {
-                const results = this.calculateChapterScore(chapter.chapterID);
-                scores[chapter.chapterID] = {};
-                scores[chapter.chapterID] = {
-                    chapterID: chapter.chapterID,
-                    score: results.score,
-                    count: results.count,
-                };
-                this.setChapterScores(scores);
-            });
+        const scores = {};
+        this.state.chapters.forEach((chapter) => {
+            const results = this.calculateChapterScore(chapter.chapterID);
+            scores[chapter.chapterID] = {};
+            scores[chapter.chapterID] = {
+                chapterID: chapter.chapterID,
+                score: results.score,
+                count: results.count,
+            };
+            this.setChapterScores(scores);
+        });
     },
     getUnitChapters(unitID) {
         this.state.chapters
@@ -135,40 +186,37 @@ export default {
         const chapters = this.state.chapters
             .filter((chapter) =>
                 chapter.unitID === unitID
-                && this.state.activeUser.chapterScores[chapter.unitID]
-                > 0);
+                && this.state.activeUser.chapterScores[chapter.unitID]);
 
-        const answersFalse = this.state.answers
-            .filter((answer) => answer.isCorrect === false && answer.unitID === unitID);
-        const answersCorrect = this.state.answers
-            .filter((answer) => answer.isCorrect === true && answer.unitID === unitID);
-
+        const answersFalse = this.state.activeUser.answers
+            .filter((answer) => !answer.isCorrect && answer.unitID === unitID);
+        const answersCorrect = this.state.activeUser.answers
+            .filter((answer) => answer.isCorrect && answer.unitID === unitID);
         const difference = questionNumber - answersFalse.length;
         const falseNumber = difference < 0 ? 0 : difference;
         const correctNumber = questionNumber - falseNumber;
-        const pickedQuestions = [];
+        console.log(correctNumber);
+        console.log(falseNumber);
+        let picked = [];
+        let pickedQuestions = [];
         // pick from false answers pool
-        for (let i = 0; i++; i <= falseNumber) {
-            let flag = false;
-            while (!flag) {
-                const index = Math.floor(Math.random() * Math.floor(answersFalse.length));
-                if (!pickedQuestions.includes(answersFalse[index].questionID)) {
-                    pickedQuestions.push(answersFalse[index].questionID);
-                    flag = true;
-                }
-            }
+
+        for (let i = 0; i < falseNumber; i++) {
+
+            const index = Math.floor(Math.random() * Math.floor(answersFalse.length));
+            pickedQuestions.push(this.state.questionsDictionary[answersFalse[index].questionID]);
+
+
         }
+        picked = [];
         // pick from correct answers pool
-        for (let i = 0; i++; i <= correctNumber) {
-            let flag = false;
-            while (!flag) {
-                const index = Math.floor(Math.random() * Math.floor(answersCorrect.length));
-                if (!pickedQuestions.includes(answersCorrect[index].questionID)) {
-                    pickedQuestions.push(answersCorrect[index].questionID);
-                    flag = true;
-                }
-            }
+        for (let i = 0; i < correctNumber; i++) {
+            const index = Math.floor(Math.random() * Math.floor(answersCorrect.length));
+            pickedQuestions.push(this.state.questionsDictionary[answersCorrect[index].questionID]);
+
+
         }
+        console.log(pickedQuestions);
         return pickedQuestions;
     },
 };

@@ -25,6 +25,15 @@ module.exports = function (ctx) {
             // all: true, // --- includes everything; for dev only!
 
             components: [
+                'QDialog',
+                'QChatMessage',
+                'QCarousel',
+                'QCarouselControl',
+                'QCarouselSlide',
+                'QInput',
+                'QForm',
+                'QRadio',
+                'QSeparator',
                 'QStepper',
                 'QStep',
                 'QStepperNavigation',

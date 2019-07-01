@@ -2,6 +2,22 @@
   <q-layout view="lHh LpR fFf">
     <q-header elevated>
       <q-toolbar>
+        <q-btn @click="help=true" > Help </q-btn>
+        <q-dialog v-model="help">
+          <q-card>
+            <q-card-section>
+              <div class="text-h6">Help</div>
+            </q-card-section>
+
+            <q-card-section>
+            <help></help>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn flat label="OK" color="primary" @click="help=false" v-close-popup />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
         <q-btn
           flat
           dense
@@ -54,6 +70,14 @@
             <q-item-label> Tests </q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable to="/history" tag="a">
+          <q-item-section avatar>
+            <q-icon name="file"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label> Test History </q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
       <Units></Units>
     </q-drawer>
@@ -82,6 +106,7 @@
   import {openURL} from 'quasar'
   import store from '../assets/store'
   import Units from "../components/Units";
+  import Help from "../components/Help";
 
 
   export default {
@@ -91,10 +116,11 @@
         leftDrawerOpen: this.$q.platform.is.desktop,
         rightDrawerOpen: this.$q.platform.is.desktop,
         store: {},
-        selectedUnit: null
+        selectedUnit: null,
+        help:false
       }
     },
-    components: {Units},
+    components: {Units, Help},
     created() {
       this.store = store;
       store.initializeDataTest();
