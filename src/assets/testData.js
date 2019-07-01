@@ -25,12 +25,23 @@ export default {
                 unitID: 1,
                 title: 'Operators and data types in c#',
                 description: 'in this section we will get to know about operators and datatypes.',
-                chapters: []
-            }, {
-                unitID: 2,
-                title: 'OOP principles in c#',
-                description: 'In this unit we will see how to use classes and objects',
-                chapters: []
+                chapters: [
+                    {
+                        chapterID: 2,
+                        title: 'Variables',
+                        unitID: 2,
+                    },
+                    {
+                        chapterID: 3,
+                        title: 'Pointers',
+                        unitID: 2,
+                    },
+                    {
+                        chapterID: 4,
+                        title: 'Operators',
+                        unitID: 2,
+                    }
+                ]
             },
         ]
     },
@@ -121,6 +132,62 @@ export default {
                     '<p>Note: You need an active internet connection for installing the express edition.</p>',
                 video: 'https://www.youtube.com/embed/udoMi4mGYYw'
             },
+            {
+                chapterID: 2,
+                title: 'Variables',
+                unitID: 1,
+                video:'https://www.youtube.com/embed/udoMi4mGYYw',
+                content: 'A variable is nothing but a name given to a storage area that our programs can manipulate. Each variable in C# has a specific type, which determines the size and layout of the variable\'s memory the range of values that can be stored within that memory and the set of operations that can be applied to the variable.\n' +
+                    '\n' +
+                    'The basic value types provided in C# can be categorized as −\n' +
+                    '\n' +
+                    'Type\tExample\n' +
+                    'Integral types\tsbyte, byte, short, ushort, int, uint, long, ulong, and char\n' +
+                    'Floating point types\tfloat and double\n' +
+                    'Decimal types\tdecimal\n' +
+                    'Boolean types\ttrue or false values, as assigned\n' +
+                    'Nullable types\tNullable data types\n' +
+                    'C# also allows defining other value types of variable such as enum and reference types of variables such as class, which we will cover in subsequent chapters.'
+    },
+            {
+                chapterID: 3,
+                title: 'Pointers',
+                unitID: 1,
+                video:'https://www.youtube.com/embed/udoMi4mGYYw',
+                content: 'Pointer Type\n' +
+                    'Pointer type variables store the memory address of another type. Pointers in C# have the same capabilities as the pointers in C or C++.\n' +
+                    '\n' +
+                    'Syntax for declaring a pointer type is −\n' +
+                    '\n' +
+                    'type* identifier;\n' +
+                    'For example,\n' +
+                    '\n' +
+                    'char* cptr;\n' +
+                    'int* iptr;\n' +
+                    'We will discuss pointer types in the chapter \'Unsafe Codes\'.'
+            },
+            {   chapterID: 4,
+                title: 'Operators',
+                unitID: 1,
+                video:'https://www.youtube.com/embed/udoMi4mGYYw',
+                content: 'Arithmetic Operators\n' +
+                    'Following table shows all the arithmetic operators supported by C#. Assume variable A holds 10 and variable B holds 20 then −\n' +
+                    '\n' +
+                    'Show Examples\n' +
+                    '\n' +
+                    'Operator\tDescription\tExample\n' +
+                    '+\tAdds two operands\tA + B = 30\n' +
+                    '-\tSubtracts second operand from the first\tA - B = -10\n' +
+                    '*\tMultiplies both operands\tA * B = 200\n' +
+                    '/\tDivides numerator by de-numerator\tB / A = 2\n' +
+                    '%\tModulus Operator and remainder of after an integer division\tB % A = 0\n' +
+                    '++\tIncrement operator increases integer value by one\tA++ = 11\n' +
+                    '--\tDecrement operator decreases integer value by one\tA-- = 9\n' +
+                    'Relational Operators'
+
+            }
+
+
 
         ]
     },
@@ -174,7 +241,7 @@ export default {
                 correctAnswer: 4,
             },{
                 questionID: 4,
-                title: 'question 3',
+                title: 'question 5',
                 description: 'What are you?',
                 option1: 'a dinosaur escaped from a google chrome',
                 option2: 'a framework',
@@ -187,7 +254,7 @@ export default {
             },
             {
                 questionID: 5,
-                title: 'question 4',
+                title: 'question 6',
                 description: 'What are you?',
                 option1: 'a dinosaur escaped from a google chrome',
                 option2: 'a framework',
@@ -198,7 +265,7 @@ export default {
             },
             {
                 questionID: 6,
-                title: 'question 4',
+                title: 'question 7',
                 description: 'What are you?',
                 option1: 'a dinosaur escaped from a google chrome',
                 option2: 'a framework',
@@ -209,7 +276,7 @@ export default {
             },
             {
                 questionID: 7,
-                title: 'question 4',
+                title: 'question 8',
                 description: 'What are you?',
                 option1: 'a dinosaur escaped from a google chrome',
                 option2: 'a framework',
@@ -220,7 +287,7 @@ export default {
             },
             {
                 questionID: 8,
-                title: 'question 4',
+                title: 'question 9',
                 description: 'What are you?',
                 option1: 'a dinosaur escaped from a google chrome',
                 option2: 'a framework',
@@ -231,7 +298,7 @@ export default {
             },
             {
                 questionID: 9,
-                title: 'question 4',
+                title: 'question 10',
                 description: 'What are you?',
                 option1: 'a dinosaur escaped from a google chrome',
                 option2: 'a framework',
@@ -240,6 +307,138 @@ export default {
                 chapterID: 1,
                 correctAnswer: 4,
             },
+            {
+                questionID: 10,
+                title: 'What is variable ',
+                description: 'What is variable ',
+                option1: 'we store temporary things on it',
+                option2: 'a framework',
+                option3: 'a fancy spaceship made by microsoft',
+                option4: 'a cat',
+                chapterID: 2,
+                correctAnswer: 4,
+            },     {
+                questionID: 11,
+                title: 'Could an int type  hold decimals',
+                description: 'Could an integer have decimals',
+                option1: 'yes',
+                option2: 'no',
+                option3: 'it depends',
+                option4: 'there is nothing such as int ',
+                chapterID: 2,
+                correctAnswer: 2,
+            },     {
+                questionID: 11,
+                title: 'Could an string type  hold decimals ',
+                description: '',
+                option1: 'yes',
+                option2: 'no',
+                option3: 'it depends',
+                option4: 'there is nothing such as string ',
+                chapterID: 2,
+                correctAnswer: 2,
+            },
+            {
+                questionID: 12,
+                title: 'pointers 2',
+                description: 'what does a pointer do?',
+                option1: 'it point stuff',
+                option2: 'it point things in memory',
+                option3: 'it is a sign',
+                option4: 'it only exists in c++',
+                chapterID: 3,
+                correctAnswer: 2,
+            },
+            {
+                questionID: 13,
+                title: 'operators 1',
+                description: 'what does an operator do?',
+                option1: 'it makes food',
+                option2: 'it point things in memory',
+                option3: 'it is a sign',
+                option4: 'it makes operations on datatypes',
+                chapterID: 4,
+                correctAnswer: 4,
+            },  {
+                questionID: 14,
+                title: 'operators plus',
+                description: 'what does an "+" operator do?',
+                option1: 'it makes food',
+                option2: 'it point things in memory',
+                option3: 'it is a sign',
+                option4: 'performs addition between numbers',
+                chapterID: 4,
+                correctAnswer: 4,
+            },
+            {
+                questionID: 15,
+                title: 'operators plus',
+                description: 'what does an "+" operator also do?',
+                option1: 'it makes food',
+                option2: 'it point things in memory',
+                option3: 'it is a sign',
+                option4: 'concats strings',
+                chapterID: 4,
+                correctAnswer: 4,
+            },
+            {
+                questionID: 16,
+                title: 'operators minus',
+                description: 'what does an "-" operator  do?',
+                option1: 'it makes food',
+                option2: 'it point things in memory',
+                option3: 'it is a sign',
+                option4: 'substracts numbers',
+                chapterID: 4,
+                correctAnswer: 4,
+            },{
+                questionID: 17,
+                title: 'operators multiply',
+                description: 'what does an "*" operator  do?',
+                option1: 'it makes food',
+                option2: 'it point things in memory',
+                option3: 'it is a sign',
+                option4: 'multiplies numbers',
+                chapterID: 4,
+                correctAnswer: 4,
+            },
+            {
+                questionID: 18,
+                title: 'operators %',
+                description: 'what does an "%" operator  do?',
+                option1: 'it makes food',
+                option2: 'it point things in memory',
+                option3: 'it is a sign',
+                option4: 'makes modulo of numbers',
+                chapterID: 4,
+                correctAnswer: 4,
+            },
+            {
+                questionID: 19,
+                title: 'operators /',
+                description: 'what does an "/" operator  do?',
+                option1: 'it makes food',
+                option2: 'it point things in memory',
+                option3: 'it is a sign',
+                option4: 'divides numbers',
+                chapterID: 4,
+                correctAnswer: 4,
+            },
+            {
+                questionID: 20,
+                title: 'operators ^',
+                description: 'check the correct answer',
+                option1: 'all is correct',
+                option2: 'none is correct',
+                option3: '2^4 = 8',
+                option4: '2^3=8',
+                chapterID: 4,
+                correctAnswer: 4,
+            },
+
+
+
+
 
         ]
     },
